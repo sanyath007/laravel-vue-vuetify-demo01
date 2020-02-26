@@ -1,23 +1,42 @@
 <template>
-  <v-row
-    align="center"
-    justify="center"
-  >
-    <v-col>
-      <h1>Users</h1>
+  <div>
+    <h1>Users</h1>
 
-      <v-data-table
-        :headers="headers"
-        :items="users"
-        :items-per-page="5"
-        class="elevation-1"
-      ></v-data-table>
-    </v-col>
-  </v-row>
+    <v-card
+      class="d-flex pa-2"
+      outlined
+      tile
+      width="100%"
+    >
+      <v-container fluid>
+        <v-data-table
+          :headers="headers"
+          :items="users"
+          :items-per-page="5"
+          hide-default-footer
+          class="elevation-0"
+        >
+
+          <template slot="no-data">
+            No users found.
+          </template>
+
+        </v-data-table>
+
+        <Paginate />
+
+      </v-container>
+    </v-card>
+  </div>
 </template>
 
 <script>
+import Paginate from '../Paginate';
+
 export default {
+  components: {
+    Paginate
+  },
   data: () => ({
     headers: [
       {
@@ -28,22 +47,23 @@ export default {
       },
       { text: 'Email', value: 'email' },
       { text: 'Created At', value: 'created_at' },
-    ],
-    users: [],
+    ]
   }),
-  mounted() {
-    this.fetchUsers();
-  },
-  methods: {
-    fetchUsers() {
-      axios.get('/users')
-      .then(res => {
-        this.users = res.data;
-      })
-      .catch(err => {
-        console.log(err)
-      })
+  computed: {
+    users: {
+      get() {
+        return this.$store.state.user.users.data;
+      }
     }
+  },
+  created() {
+    this.$store.dispatch('user/getUsers');
   },
 }
 </script>
+
+<style scoped>
+  div {
+    width: 100%;
+  }
+</style>

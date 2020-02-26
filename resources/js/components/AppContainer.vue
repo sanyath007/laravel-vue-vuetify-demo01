@@ -15,7 +15,7 @@
         </v-list-item>
         <v-list-item to="/users" link>
           <v-list-item-action>
-            <v-icon>mdi-users</v-icon>
+            <v-icon>mdi-account-multiple</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Users</v-list-item-title>
